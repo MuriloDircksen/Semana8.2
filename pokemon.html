@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <form action="" id="form" onsubmit="event.preventDefault()">
+    <label for="">Escolha seu pokemon</label>
+    <input type="radio" name="pokemon" id="pikachu" value="pikachu">
+    <label for="pikachu">Pikachu</label>
+    <input type="radio" name="pokemon" id="charmander" value="charmander">
+    <label for="charmander">Charmander</label>
+    <input type="radio" name="pokemon" id="bulbassaur" value="bulbassaur">
+    <label for="bulbassaur">Bulbassaur</label>
+    <input type="radio" name="pokemon" id="squirtle" value="squirtle">
+    <label for="squirtle">Squirtle</label>
+
+    <button type="submit" id="btn">Pesquisar</button>
+</form>
+    <div id="informacao"></div>
+
+    <script>
+        
+
+        async function pegaPoke(poke){
+            console.log(poke)
+            const pokemon = await ( await fetch(`https://pokeapi.co/api/v2/pokemon/${poke}`)).json()
+            console.log(pokemon)
+            for(const key in pokemon.stats){
+                console.log(pokemon.stats[key].base_stat)
+                const status = pokemon.stats[key].stat.name
+                const baseStatus = pokemon.stats[key].base_stat
+                const p = document.createElement('p');
+                p.innerHTML=`${status}:${baseStatus}`
+                document.getElementById('informacao').appendChild(p)
+            }
+        }
+        let radio = document.getElementById('btn');
+        radio.addEventListener("click", () =>{
+            let pokemonEscolhido = document.querySelector('input[name="pokemon"]:checked').value
+            console.log(pokemonEscolhido)
+            pegaPoke(pokemonEscolhido)
+        })
+    </script>
+</body>
+</html>

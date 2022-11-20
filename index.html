@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <label for="">Digite seu cep:</label>
+    <input type="tel" id="inputCep" required>
+    <button id="btn">Procurar</button>
+    <div id="listaInformacao">
+
+    </div>
+    <script>
+           
+           let element = document.getElementById("btn")
+           element.addEventListener("click",() => {
+                let meuCep = document.getElementById("inputCep").value
+                procuraCep(meuCep)
+            })
+            
+        async function procuraCep(meuCep){
+            
+            let cep = await (await fetch(`https://brasilapi.com.br/api/cep/v2/${meuCep}`)).json()
+            console.log(cep)
+            const rua = cep.street
+            const estado = cep.state
+            const cidade = cep.city
+            const p = document.createElement('p')
+            
+            p.innerHTML = `${rua}:${estado}:${cidade}`
+            console.log(p)
+            document.getElementById('listaInformacao').appendChild(p)
+
+            }
+            
+        
+    </script>
+</body>
+</html>
